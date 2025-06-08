@@ -1,0 +1,11 @@
+# Node modules (never push to GitHub)
+node_modules/
+
+# Build output (optional)
+dist/
+
+# System files (optional)
+.DS_Store
+
+# Log files
+npm-debug.log

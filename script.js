@@ -9,18 +9,18 @@ function addTask(){
   if (task === "") return; //If the user didn’t type anything, or only typed spaces, then the function stops there and does not add a blank task to the list
 
   //Imagine your to-do list is like a real notebook, and each task is a sticky note you add to a page. In the code, taskList is your notebook — an empty list where all your tasks are stored. When the user types something (like “Buy milk”) and clicks the Add button, the code creates a little sticky note (a task object) with two things: the text of the task and a note saying it’s not done yet (done: false). Then, taskList.push(...) adds that sticky note to the notebook by placing it at the end of the list. So every time you add a task, it gets saved as a new sticky note in your digital notebook!
-  taskList.push({text:task, done:false});
+  tasklist.push({text:task, done:false});
   input.value = ""; //This clears the input box after the task is added. So the user doesn’t have to delete the old text before typing a new one.
   saveTasks(); //Saves the taskList to localStorage, so the tasks stay even after refreshing the page.
   renderTasks(); //This calls a function that displays all the tasks on the screen
 }
 function renderTasks() {
-  let ul = document.getElementById("taskList"); //finds the <ul> element in the HTML, which is the place where all the task items will be displayed
+  let ul = document.getElementById("tasklist"); //finds the <ul> element in the HTML, which is the place where all the task items will be displayed
   ul.innerHTML = ""; //clears out anything that was already inside that list. This is done so that when you refresh or re-render the tasks (like after adding a new one), it starts from a clean slate and doesn’t duplicate the old tasks.
 
   //This line starts a loop using the .forEach() method.forEach() is a built-in JavaScript method that lets you run some code for each item in an array
   //task represents the current task object (like { text: "Buy milk", done: false }). index is the position of that task in the array (first = 0, second = 1, etc.).
-  taskList.forEach((task, index) => {
+  tasklist.forEach((task, index) => {
     let li = document.createElement("li"); //This creates a new <li> element — a list item in HTML. You’re doing this so you can add a task to the list on your page.
     li.textContent = task.text; ////This puts the actual text of the task (like “Buy milk”) inside the <li> you just created.
 
@@ -33,7 +33,7 @@ function renderTasks() {
     `;
 
     li.addEventListener("click", () => {
-      taskList[index].done = !taskList[index].done; //This tells the browser: When someone clicks this task, toggle its done status.
+      tasklist[index].done = !tasklist[index].done; //This tells the browser: When someone clicks this task, toggle its done status.
       saveTasks();
       renderTasks();
     });
@@ -42,7 +42,7 @@ function renderTasks() {
    //.addEventListener("dblclick", ...) is a predefined JavaScript method that listens for a specific action (event) — in this case, a double-click. 
    //The () => { ... } part is an arrow function, which defines what should happen when the double-click occurs.
     li.addEventListener("dblclick", () => {
-      taskList.splice(index, 1); //This says: When someone double-clicks this task, remove it from the list.
+      tasklist.splice(index, 1); //This says: When someone double-clicks this task, remove it from the list.
       saveTasks();
       renderTasks();
     });
@@ -54,7 +54,7 @@ function renderTasks() {
 
 //This defines a custom function named saveTasks. You created it so that your to-do app can save the current list of tasks permanently — even if the user closes or refreshes the page.
 function saveTasks() {
-  localStorage.setItem("tasks", JSON.stringify(taskList)); 
+  localStorage.setItem("tasks", JSON.stringify(tasklist)); 
   //localStorage.setItem("tasks", ...) : This line saves data in the browser’s localStorage — a built-in place where websites can store data.
   //"tasks" is the key — like a label or name for what you’re saving.
   //taskList is your array of tasks. But localStorage can only store strings, not full objects or arrays. JSON.stringify() converts the task array into a string so it can be saved.
@@ -66,7 +66,7 @@ function loadTasks() {
   //This checks: “Was anything found in localStorage?”
   //If saved is not null (i.e., there’s something saved), then move to the next step.
   if (saved) { 
-    taskList = JSON.parse(saved); //This takes the string from localStorage and converts it back into a real JavaScript array using JSON.parse.
+    tasklist = JSON.parse(saved); //This takes the string from localStorage and converts it back into a real JavaScript array using JSON.parse.
     renderTasks();
   }
 }
